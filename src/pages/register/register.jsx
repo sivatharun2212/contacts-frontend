@@ -20,7 +20,7 @@ const Register = () => {
 
 		// eslint-disable-next-line
 	}, []);
-	const URL = "http://localhost:5001/api/users/register";
+	const URL = "https://contacts-mern.onrender.com/api/users/register";
 	const requestData = {
 		userName,
 		email,

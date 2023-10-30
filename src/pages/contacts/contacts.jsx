@@ -57,7 +57,7 @@ const Contacts = () => {
 		navigate("/");
 	};
 
-	const URL = "http://localhost:5001/api/contacts";
+	const URL = "https://contacts-mern.onrender.com/api/contacts";
 	const requestData = {
 		name,
 		email,

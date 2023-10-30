@@ -23,7 +23,7 @@ const Login = () => {
 		// eslint-disable-next-line
 	}, []);
 
-	const URL = "http://localhost:5001/api/users/login";
+	const URL = "https://contacts-mern.onrender.com/api/users/login";
 	const requestData = {
 		email,
 		password,

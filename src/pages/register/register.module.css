@@ -1,0 +1,79 @@
+.section {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.container {
+	background-color: #c5c0c9;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px 50px;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.heading {
+	color: #28242e;
+	font-size: 30px;
+}
+.registrationForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	gap: 10px;
+}
+
+.registrationForm input {
+	width: 200px;
+	height: 30px;
+	border: none;
+	outline: none;
+	padding-left: 10px;
+	border-radius: 5px;
+	color: #28242e;
+}
+.signUpBtn {
+	width: 200px;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+
+.signinText {
+	font-size: 12px;
+	color: #28242e;
+}
+.signinBtn {
+	width: 200px;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 460px) {
+	.container {
+		padding: 20px;
+	}
+	.registrationForm input {
+		width: 180px;
+	}
+
+	.signinBtn {
+		width: 180px;
+	}
+	.signUpBtn {
+		width: 180px;
+	}
+}

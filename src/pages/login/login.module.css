@@ -1,0 +1,106 @@
+.section {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	background-color: #c5c0c9;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.heading {
+	color: #28242e;
+	font-size: 30px;
+}
+.loginForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	gap: 10px;
+}
+.loginForm input {
+	width: 200px;
+	height: 30px;
+	border: none;
+	outline: none;
+	padding-left: 10px;
+	border-radius: 5px;
+	color: #28242e;
+}
+.rememberContainer {
+	width: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+}
+.rememberContainer input {
+	width: 15px;
+	color: #28242e;
+}
+.rememberText {
+	font-size: 12px;
+	color: #28242e;
+}
+.createAccountText {
+	font-size: 12px;
+	color: #28242e;
+}
+
+.loginBtn {
+	width: 200px;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+
+.signupBtn {
+	width: 200px;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 460px) {
+	.container {
+		padding: 20px;
+	}
+	.loginForm input {
+		width: 180px;
+	}
+	.rememberContainer {
+		width: 180px;
+	}
+	.loginBtn {
+		width: 180px;
+	}
+	.signupBtn {
+		width: 180px;
+	}
+	.rememberContainer input {
+		width: 15px;
+		color: #28242e;
+	}
+	.rememberText {
+		font-size: 12px;
+		color: #28242e;
+	}
+}

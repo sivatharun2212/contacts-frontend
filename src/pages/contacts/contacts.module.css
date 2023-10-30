@@ -1,0 +1,489 @@
+.section {
+	width: 100vw;
+	height: 100vh;
+	padding: 40px;
+}
+.container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+.navbar {
+	background-color: #c5c0c9;
+	width: 100%;
+	height: 80px;
+	display: flex;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+	position: relative;
+}
+.stick {
+	background-color: #28242e;
+	width: 8px;
+	height: calc(100% - 20px);
+	border-radius: 3px;
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+}
+.titleCont {
+	width: 25%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.title {
+	color: #28242e;
+	font-size: 24px;
+}
+.btnCont {
+	width: 20%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+.signOutBtn {
+	width: 30%;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+.createBtn {
+	width: 50%;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+.menuIcon {
+	width: 25px;
+	position: absolute;
+	right: 30px;
+	bottom: 25px;
+}
+
+.btnContmenu {
+	width: 180px;
+	background-color: #c5c0c9;
+	height: 120px;
+	position: absolute;
+	right: 0px;
+	bottom: -130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.signOutBtnmenu {
+	width: 80%;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+.createBtnmenu {
+	width: 80%;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: white;
+	cursor: pointer;
+}
+.contactsCont {
+	width: 100%;
+	height: 80%;
+	display: flex;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #c5c0c9;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+	overflow: hidden;
+}
+.cardsCont {
+	width: 100%;
+	overflow-y: scroll;
+	display: grid;
+	row-gap: 20px;
+	grid-template-columns: 1fr 1fr 1fr;
+	place-items: center;
+}
+.cardsCont::-webkit-scrollbar {
+	width: 6px;
+}
+
+.cardsCont::-webkit-scrollbar-thumb {
+	background-image: linear-gradient(#6651a0af, #af6ae7ad);
+	border-radius: 5px;
+}
+.card {
+	width: 400px;
+	height: 180px;
+	background-color: #28242e8a;
+	border-radius: 8px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.infoCont {
+	width: 100%;
+	height: 70%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.infoWrapper {
+	display: flex;
+}
+.heading {
+	width: 35%;
+}
+.key {
+	font-size: 15px;
+	font-weight: 400;
+	color: #ffffff;
+}
+.info {
+	width: 65%;
+}
+.value {
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: 400;
+	letter-spacing: 2px;
+}
+.cardBtns {
+	width: 100%;
+	height: 20%;
+	display: flex;
+	justify-content: space-evenly;
+}
+.updateBtn {
+	width: 32%;
+	background-color: #c5c0c9;
+	outline: none;
+	border: 1px solid #28242e71;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.delBtn {
+	width: 32%;
+	background-color: #c5c0c9;
+	outline: none;
+	border: 1px solid #28242e71;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.tagBtn {
+	width: 32%;
+	background-color: #c5c0c9;
+	outline: none;
+	border: 1px solid #28242e71;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.createContactCont {
+	background-color: #c5c0c9;
+	margin-top: 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	border-radius: 10px;
+	position: relative;
+}
+.createHeading {
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 20px;
+	color: #28242e;
+}
+.CreateContactsInput {
+	padding: 10px 0px;
+	display: flex;
+	justify-content: space-evenly;
+}
+.CreateContactsInput input {
+	width: 300px;
+	height: 30px;
+	border: none;
+	outline: none;
+	padding-left: 10px;
+	border-radius: 5px;
+	color: #28242e;
+}
+.createContactBtn {
+	width: 120px;
+	height: 30px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: gray;
+	color: black;
+	cursor: pointer;
+}
+.searchCont {
+	width: 55%;
+	display: flex;
+	padding: 0px 20px;
+	justify-content: space-between;
+	align-items: center;
+}
+.searchCont input {
+	width: 71%;
+	height: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	padding-left: 10px;
+	background-color: #9ba8b8;
+}
+.searchCont select {
+	width: 27%;
+	height: 30px;
+	outline: none;
+	border: none;
+	padding-left: 10px;
+	border-radius: 5px;
+	background-color: #9ba8b8;
+}
+
+.updateCont {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+.updateHeading {
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 15px;
+	color: #ffffff;
+	letter-spacing: 2px;
+}
+.updateCont input {
+	width: 100%;
+	height: 25px;
+	border: none;
+	outline: none;
+	padding-left: 10px;
+	border-radius: 5px;
+	color: #28242e;
+	background-color: #9ba8b8;
+}
+.updateCont button {
+	width: 140px;
+	height: 25px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: #c5c0c9;
+	color: black;
+	cursor: pointer;
+}
+.btnWrapper {
+	width: 100%;
+	height: 30px;
+	display: flex;
+	justify-content: space-between;
+}
+.tagsCont {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.addTags {
+	width: 100%;
+	height: 20%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.addTags input {
+	width: 300px;
+	height: 25px;
+	border: none;
+	outline: none;
+	padding-left: 10px;
+	border-radius: 5px;
+	color: #28242e;
+	background-color: #9ba8b8;
+}
+.addTags button {
+	width: 50px;
+	height: 25px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: #c5c0c9;
+	color: black;
+	cursor: pointer;
+}
+.tags {
+	width: 100%;
+	height: 60%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 5px;
+	padding: 5px 0px;
+	overflow: hidden;
+}
+.tagsWrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 5px;
+	padding: 5px 0px;
+	overflow-y: scroll;
+}
+.tagsWrapper::-webkit-scrollbar {
+	width: 6px;
+}
+
+.tagsWrapper::-webkit-scrollbar-thumb {
+	background-image: linear-gradient(#585461af, #38353bad);
+	border-radius: 5px;
+}
+.tagTxt {
+	display: flex;
+	align-items: center;
+	background-color: rgb(209, 218, 172);
+	border: 1px solid #9aa754;
+	padding: 0px 3px;
+	border-radius: 5px;
+}
+.tagBtnCont {
+	width: 100%;
+	height: 20%;
+	display: flex;
+	justify-content: space-between;
+}
+.tagSaveBtn,
+.tagCancelBtn {
+	width: 140px;
+	height: 25px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	background-color: #c5c0c9;
+	color: black;
+	cursor: pointer;
+}
+
+::placeholder {
+	color: rgba(0, 0, 0, 0.534);
+}
+
+@media screen and (max-width: 1060px) {
+	.navbar {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.searchCont {
+		width: 80%;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	.navbar {
+		height: 120px;
+	}
+	.titleCont {
+		width: 50%;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.CreateContactsInput input {
+		width: 250px;
+	}
+}
+@media screen and (max-width: 1322px) {
+	.cardsCont {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media screen and (max-width: 950px) {
+	.cardsCont {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media screen and (max-width: 530px) {
+	.card {
+		width: 90%;
+		height: 200px;
+		padding: 10px;
+	}
+	.section {
+		padding: 10px;
+	}
+	.heading {
+		width: 25%;
+	}
+	.key {
+		font-size: 12px;
+	}
+	.value {
+		font-size: 12px;
+	}
+	.updateBtn {
+		height: 28px;
+	}
+	.tagBtn {
+		height: 28px;
+	}
+	.delBtn {
+		height: 28px;
+	}
+	.createContactCont {
+		align-items: center;
+	}
+	.CreateContactsInput {
+		width: 80%;
+	}
+	.addTags input {
+		width: 240px;
+	}
+	.tagCancelBtn {
+		width: 120px;
+	}
+	.tagSaveBtn {
+		width: 120px;
+	}
+	.updateCont button {
+		width: 120px;
+	}
+}

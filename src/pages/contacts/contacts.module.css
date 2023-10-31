@@ -196,6 +196,9 @@
 	border: 1px solid #28242e71;
 	border-radius: 5px;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .tagBtn {
 	width: 32%;
@@ -242,8 +245,11 @@
 	outline: none;
 	border-radius: 5px;
 	background-color: gray;
-	color: black;
+	color: white;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .searchCont {
 	width: 55%;
@@ -305,6 +311,9 @@
 	background-color: #c5c0c9;
 	color: black;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .btnWrapper {
 	width: 100%;
@@ -399,6 +408,9 @@
 	background-color: #c5c0c9;
 	color: black;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 ::placeholder {
@@ -445,7 +457,7 @@
 	.card {
 		width: 90%;
 		height: 200px;
-		padding: 10px;
+		/* padding: 10px; */
 	}
 	.section {
 		padding: 10px;
@@ -453,12 +465,12 @@
 	.heading {
 		width: 25%;
 	}
-	.key {
+	/* .key {
 		font-size: 12px;
 	}
 	.value {
 		font-size: 12px;
-	}
+	} */
 	.updateBtn {
 		height: 28px;
 	}
@@ -485,5 +497,43 @@
 	}
 	.updateCont button {
 		width: 120px;
+	}
+}
+
+.loader {
+	width: 1.8em;
+	transform-origin: center;
+	animation: rotate4 2s linear infinite;
+}
+
+.circle {
+	fill: none;
+	stroke: hsl(0, 0%, 100%);
+	stroke-width: 6;
+	stroke-dasharray: 1, 200;
+	stroke-dashoffset: 0;
+	stroke-linecap: round;
+	animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dash4 {
+	0% {
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+	}
+
+	50% {
+		stroke-dasharray: 90, 200;
+		stroke-dashoffset: -35px;
+	}
+
+	100% {
+		stroke-dashoffset: -125px;
 	}
 }

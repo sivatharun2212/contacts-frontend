@@ -3,6 +3,9 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import styles from "./register.module.css";
 import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const Register = () => {
 	const navigate = useNavigate();
 	const [cookies] = useCookies(["access_token"]);
@@ -38,15 +41,16 @@ const Register = () => {
 					});
 					console.log("req sent");
 					console.log(response);
+					toast.success("Account Created");
 					navigate("/");
 				} catch (error) {
-					console.error(error.message);
+					toast.error(error.message);
 				}
 			} else {
-				alert("passwords not matched!");
+				toast.warning("passwords not matched!");
 			}
 		} else {
-			alert("all fields are mandatory!");
+			toast.warning("all fields are mandatory!");
 		}
 	};
 	return (

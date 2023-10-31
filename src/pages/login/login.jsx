@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import styles from "./login.module.css";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -39,15 +41,17 @@ const Login = () => {
 					},
 				});
 				console.log("req sent");
+				toast.success("Login successful");
 				if (response.data) {
 					setCookies("access_token", response.data.accessToken);
 				}
 				navigate("/contacts");
 			} catch (error) {
+				toast.error(error.message);
 				console.error(error.message);
 			}
 		} else {
-			alert("all fields are mandatory!");
+			toast.warning("All fields are mandatory!");
 		}
 	};
 	return (

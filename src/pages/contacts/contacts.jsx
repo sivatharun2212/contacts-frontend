@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./contacts.module.css";
 import closeIcon from "../../icons/close.png";
 import menuIcon from "../../icons/menu.png";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const Contacts = () => {
 	const [cookies, setCookies] = useCookies(["access_token"]);
 	const navigate = useNavigate();
@@ -14,6 +17,7 @@ const Contacts = () => {
 	const [isContactCreated, setIsContactCreated] = useState(false);
 	const [isContactUpdated, setIsContactUpdated] = useState(false);
 	const [isContactDeleted, setIsContactDeleted] = useState(false);
+	const [loader, setLoader] = useState(false);
 	const [searchBy, setSearchBy] = useState("name");
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -45,14 +49,14 @@ const Contacts = () => {
 		const filtered = contacts.filter((contact) => {
 			if (searchBy !== "tag") {
 				return contact[searchBy].toLowerCase().includes(searchQuery.toLowerCase());
-			} else if (searchQuery !== "") {
-				return contact.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 			}
-			return false;
+			return contact.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 		});
 		setFilteredContacts(filtered);
 	}, [searchBy, searchQuery, contacts]);
+
 	const handleSignOut = () => {
+		toast.success("signed out");
 		setCookies("access_token", "");
 		navigate("/");
 	};
@@ -65,6 +69,7 @@ const Contacts = () => {
 	};
 
 	const handleCreateContact = async () => {
+		setLoader(true);
 		try {
 			await axios.post(URL, requestData, {
 				headers: {
@@ -72,12 +77,14 @@ const Contacts = () => {
 					"Content-Type": "application/json",
 				},
 			});
+			toast.success(`Contact created for ${name}`);
 			setIsContactCreated(true);
 			setIsCreateButtonClicked(!isCreateButtonClicked);
 			setName("");
 			setEmail("");
 			setPhone("");
 		} catch (err) {
+			toast.error(err.message);
 			console.error(err.messgae);
 		}
 	};
@@ -99,12 +106,14 @@ const Contacts = () => {
 					},
 				}
 			);
+			toast.success("updation successful");
 			SetOPenUpdateCard(null);
 			setIsContactUpdated(true);
-			setName("");
+			setNewName("");
 			setNewEmail("");
 			setNewPhone("");
 		} catch (err) {
+			toast.error(err.message);
 			console.error(err.message);
 		}
 	};
@@ -131,8 +140,10 @@ const Contacts = () => {
 					"Content-Type": "application/json",
 				},
 			});
+			toast.success("contact deleted");
 			setIsContactDeleted(true);
 		} catch (err) {
+			toast.error(err.message);
 			console.error(err.message);
 		}
 	};
@@ -146,7 +157,8 @@ const Contacts = () => {
 				},
 			});
 			if (response) {
-				setContacts(response.data);
+				const reversedContacts = response.data.slice().reverse();
+				setContacts(reversedContacts);
 			}
 		} catch (error) {
 			console.error(error.message);
@@ -156,6 +168,7 @@ const Contacts = () => {
 	if (isContactCreated) {
 		getContacts();
 		setIsContactCreated(false);
+		setLoader(false);
 	}
 	if (isContactUpdated) {
 		getContacts();
@@ -182,8 +195,10 @@ const Contacts = () => {
 				}
 			);
 			await getContacts();
+			toast.success("Tags added successfully");
 			setOPenTagsCard(null);
 		} catch (err) {
+			toast.error(err.message);
 			console.error(err.message);
 		}
 	};
@@ -247,12 +262,12 @@ const Contacts = () => {
 									<button
 										className={styles.signOutBtn}
 										onClick={handleSignOut}>
-										sign out
+										Sign Out
 									</button>
 									<button
 										className={styles.createBtn}
 										onClick={() => setIsCreateButtonClicked(!isCreateButtonClicked)}>
-										create contact
+										Create Contact
 									</button>
 								</div>
 							) : (
@@ -271,7 +286,7 @@ const Contacts = () => {
 									<button
 										className={styles.signOutBtnmenu}
 										onClick={handleSignOut}>
-										sign out
+										Sign Out
 									</button>
 									<button
 										className={styles.createBtnmenu}
@@ -279,7 +294,7 @@ const Contacts = () => {
 											setIsCreateButtonClicked(!isCreateButtonClicked);
 											setIsMenuOpen(!isMenuOpen);
 										}}>
-										create contact
+										Create Contact
 									</button>
 								</div>
 							)}
@@ -320,7 +335,19 @@ const Contacts = () => {
 									<button
 										className={styles.createContactBtn}
 										onClick={handleCreateContact}>
-										Save
+										{loader ? (
+											<svg
+												className={styles.loader}
+												viewBox="25 25 50 50">
+												<circle
+													className={styles.circle}
+													r="20"
+													cy="50"
+													cx="50"></circle>
+											</svg>
+										) : (
+											`Save`
+										)}
 									</button>
 								</div>
 							</div>
@@ -328,293 +355,297 @@ const Contacts = () => {
 					</div>
 					<div className={styles.contactsCont}>
 						<div className={styles.cardsCont}>
-							{filteredContacts.length === 0
-								? contacts.map((contact) => {
-										return (
-											<div
-												key={contact._id}
-												className={styles.card}>
-												{openUpdateCard === contact._id ? (
-													<>
-														<div className={styles.updateCont}>
-															<h1 className={styles.updateHeading}>Update Contact</h1>
+							{filteredContacts.length === 0 && searchQuery === "" ? (
+								contacts.map((contact) => {
+									return (
+										<div
+											key={contact._id}
+											className={styles.card}>
+											{openUpdateCard === contact._id ? (
+												<>
+													<div className={styles.updateCont}>
+														<h1 className={styles.updateHeading}>Update Contact</h1>
+														<input
+															type="text"
+															placeholder="Name"
+															value={newName}
+															onChange={(e) => setNewName(e.target.value)}
+														/>
+														<input
+															type="email"
+															placeholder="Email"
+															value={newEmail}
+															onChange={(e) => setNewEmail(e.target.value)}
+														/>
+														<input
+															type="phone"
+															placeholder="Phone Number"
+															value={newPhone}
+															onChange={(e) => setNewPhone(e.target.value)}
+														/>
+														<div className={styles.btnWrapper}>
+															<button
+																className={styles.createContactBtn}
+																onClick={handleCancelUpdate}>
+																Cancel
+															</button>
+															<button
+																className={styles.createContactBtn}
+																onClick={() => handleUpdateContact(contact._id)}>
+																Save
+															</button>
+														</div>
+													</div>
+												</>
+											) : openTagsCard === contact._id ? (
+												<>
+													<div className={styles.tagsCont}>
+														<div className={styles.addTags}>
 															<input
 																type="text"
-																placeholder="Name"
-																value={newName}
-																onChange={(e) => setNewName(e.target.value)}
+																placeholder="Ex. Family"
+																value={tag}
+																onChange={(e) => setTag(e.target.value)}
 															/>
-															<input
-																type="email"
-																placeholder="Email"
-																value={newEmail}
-																onChange={(e) => setNewEmail(e.target.value)}
-															/>
-															<input
-																type="phone"
-																placeholder="Phone Number"
-																value={newPhone}
-																onChange={(e) => setNewPhone(e.target.value)}
-															/>
-															<div className={styles.btnWrapper}>
-																<button
-																	className={styles.createContactBtn}
-																	onClick={handleCancelUpdate}>
-																	cancel
-																</button>
-																<button
-																	className={styles.createContactBtn}
-																	onClick={() => handleUpdateContact(contact._id)}>
-																	Save
-																</button>
-															</div>
+															<button onClick={handleAddTags}>Add</button>
 														</div>
-													</>
-												) : openTagsCard === contact._id ? (
-													<>
-														<div className={styles.tagsCont}>
-															<div className={styles.addTags}>
-																<input
-																	type="text"
-																	placeholder="Ex. Family"
-																	value={tag}
-																	onChange={(e) => setTag(e.target.value)}
-																/>
-																<button onClick={handleAddTags}>Add</button>
-															</div>
 
-															<div className={styles.tags}>
-																<div className={styles.tagsWrapper}>
-																	{tags?.length !== 0 ? (
-																		tags.map((tag, index) => {
-																			return (
-																				<div
-																					key={index}
-																					className={styles.tagTxt}>
-																					@{tag}
-																					<img
-																						style={{ width: "10px", marginLeft: "5px", cursor: "pointer" }}
-																						src={closeIcon}
-																						alt="close"
-																						onClick={() => removeTag(index)}
-																					/>
-																				</div>
-																			);
-																		})
-																	) : (
-																		<h3>no tags</h3>
-																	)}
-																</div>
-															</div>
-															<div className={styles.tagBtnCont}>
-																<button
-																	className={styles.tagCancelBtn}
-																	onClick={handleCancelTag}>
-																	cancel
-																</button>
-																<button
-																	className={styles.tagSaveBtn}
-																	onClick={() => handleSaveTags(contact._id)}>
-																	save
-																</button>
+														<div className={styles.tags}>
+															<div className={styles.tagsWrapper}>
+																{tags?.length !== 0 ? (
+																	tags.map((tag, index) => {
+																		return (
+																			<div
+																				key={index}
+																				className={styles.tagTxt}>
+																				@{tag}
+																				<img
+																					style={{ width: "10px", marginLeft: "5px", cursor: "pointer" }}
+																					src={closeIcon}
+																					alt="close"
+																					onClick={() => removeTag(index)}
+																				/>
+																			</div>
+																		);
+																	})
+																) : (
+																	<h3>No Tags</h3>
+																)}
 															</div>
 														</div>
-													</>
-												) : (
-													<>
-														<div className={styles.infoCont}>
-															<div className={styles.infoWrapper}>
-																<div className={styles.heading}>
+														<div className={styles.tagBtnCont}>
+															<button
+																className={styles.tagCancelBtn}
+																onClick={handleCancelTag}>
+																Cancel
+															</button>
+															<button
+																className={styles.tagSaveBtn}
+																onClick={() => handleSaveTags(contact._id)}>
+																Save
+															</button>
+														</div>
+													</div>
+												</>
+											) : (
+												<>
+													<div className={styles.infoCont}>
+														<div className={styles.infoWrapper}>
+															{/* <div className={styles.heading}>
 																	<h1 className={styles.key}>Name</h1>
-																</div>
-																<div className={styles.info}>
-																	<h1 className={styles.value}>{contact.name}</h1>
-																</div>
+																</div> */}
+															<div className={styles.info}>
+																<h1 className={styles.value}>{contact.name}</h1>
 															</div>
-															<div className={styles.infoWrapper}>
-																<div className={styles.heading}>
+														</div>
+														<div className={styles.infoWrapper}>
+															{/* <div className={styles.heading}>
 																	<h1 className={styles.key}>Email</h1>
-																</div>
-																<div className={styles.info}>
-																	<h1 className={styles.value}>{contact.email}</h1>
-																</div>
-															</div>
-															<div className={styles.infoWrapper}>
-																<div className={styles.heading}>
-																	<h1 className={styles.key}>Phone Number</h1>
-																</div>
-																<div className={styles.info}>
-																	<h1 className={styles.value}>{contact.phone}</h1>
-																</div>
+																</div> */}
+															<div className={styles.info}>
+																<h1 className={styles.value}>{contact.email}</h1>
 															</div>
 														</div>
-														<div className={styles.cardBtns}>
+														<div className={styles.infoWrapper}>
+															{/* <div className={styles.heading}>
+																	<h1 className={styles.key}>Ph. Number</h1>
+																</div> */}
+															<div className={styles.info}>
+																<h1 className={styles.value}>{contact.phone}</h1>
+															</div>
+														</div>
+													</div>
+													<div className={styles.cardBtns}>
+														<button
+															onClick={() => SetOPenUpdateCard(contact._id)}
+															className={styles.updateBtn}>
+															Update
+														</button>
+														<button
+															className={styles.delBtn}
+															onClick={() => hsndelDeleteContact(contact._id)}>
+															Delete
+														</button>
+														<button
+															onClick={() => {
+																setOPenTagsCard(contact._id);
+																getTags(contact._id);
+															}}
+															className={styles.tagBtn}>
+															Tags
+														</button>
+													</div>
+												</>
+											)}
+										</div>
+									);
+								})
+							) : filteredContacts.length === 0 ? (
+								<h1 style={{ textAlign: "center" }}>{`No Cntacts Match With '${searchQuery}'`}</h1>
+							) : (
+								filteredContacts.map((contact) => {
+									return (
+										<div
+											key={contact._id}
+											className={styles.card}>
+											{openUpdateCard === contact._id ? (
+												<>
+													<div className={styles.updateCont}>
+														<h1 className={styles.updateHeading}>Update Contact</h1>
+														<input
+															type="text"
+															placeholder="Name"
+															value={newName}
+															onChange={(e) => setNewName(e.target.value)}
+														/>
+														<input
+															type="email"
+															placeholder="Email"
+															value={newEmail}
+															onChange={(e) => setNewEmail(e.target.value)}
+														/>
+														<input
+															type="phone"
+															placeholder="Phone Number"
+															value={newPhone}
+															onChange={(e) => setNewPhone(e.target.value)}
+														/>
+														<div className={styles.btnWrapper}>
 															<button
-																onClick={() => SetOPenUpdateCard(contact._id)}
-																className={styles.updateBtn}>
-																Update
+																className={styles.UpContactBtn}
+																onClick={handleCancelUpdate}>
+																Cancel
 															</button>
 															<button
-																className={styles.delBtn}
-																onClick={() => hsndelDeleteContact(contact._id)}>
-																Delete
-															</button>
-															<button
-																onClick={() => {
-																	setOPenTagsCard(contact._id);
-																	getTags(contact._id);
-																}}
-																className={styles.tagBtn}>
-																Tags
+																className={styles.UpContactBtn}
+																onClick={() => handleUpdateContact(contact._id)}>
+																Save
 															</button>
 														</div>
-													</>
-												)}
-											</div>
-										);
-								  })
-								: filteredContacts.map((contact) => {
-										return (
-											<div
-												key={contact._id}
-												className={styles.card}>
-												{openUpdateCard === contact._id ? (
-													<>
-														<div className={styles.updateCont}>
-															<h1 className={styles.updateHeading}>Update Contact</h1>
+													</div>
+												</>
+											) : openTagsCard === contact._id ? (
+												<>
+													<div className={styles.tagsCont}>
+														<div className={styles.addTags}>
 															<input
 																type="text"
-																placeholder="Name"
-																value={newName}
-																onChange={(e) => setNewName(e.target.value)}
+																placeholder="Ex. Family"
+																value={tag}
+																onChange={(e) => setTag(e.target.value)}
 															/>
-															<input
-																type="email"
-																placeholder="Email"
-																value={newEmail}
-																onChange={(e) => setNewEmail(e.target.value)}
-															/>
-															<input
-																type="phone"
-																placeholder="Phone Number"
-																value={newPhone}
-																onChange={(e) => setNewPhone(e.target.value)}
-															/>
-															<div className={styles.btnWrapper}>
-																<button
-																	className={styles.UpContactBtn}
-																	onClick={handleCancelUpdate}>
-																	cancel
-																</button>
-																<button
-																	className={styles.UpContactBtn}
-																	onClick={() => handleUpdateContact(contact._id)}>
-																	Save
-																</button>
-															</div>
+															<button onClick={handleAddTags}>Add</button>
 														</div>
-													</>
-												) : openTagsCard === contact._id ? (
-													<>
-														<div className={styles.tagsCont}>
-															<div className={styles.addTags}>
-																<input
-																	type="text"
-																	placeholder="Ex. Family"
-																	value={tag}
-																	onChange={(e) => setTag(e.target.value)}
-																/>
-																<button onClick={handleAddTags}>Add</button>
-															</div>
 
-															<div className={styles.tags}>
-																<div className={styles.tagsWrapper}>
-																	{tags?.length !== 0 ? (
-																		tags.map((tag, index) => {
-																			return (
-																				<div className={styles.tagTxt}>
-																					@{tag}
-																					<img
-																						style={{ width: "10px", marginLeft: "5px", cursor: "pointer" }}
-																						src={closeIcon}
-																						alt="close"
-																						onClick={() => removeTag(index)}
-																					/>
-																				</div>
-																			);
-																		})
-																	) : (
-																		<h3>no tags</h3>
-																	)}
-																</div>
-															</div>
-															<div className={styles.tagBtnCont}>
-																<button
-																	className={styles.tagCancelBtn}
-																	onClick={handleCancelTag}>
-																	cancel
-																</button>
-																<button
-																	className={styles.tagSaveBtn}
-																	onClick={() => handleSaveTags(contact._id)}>
-																	save
-																</button>
+														<div className={styles.tags}>
+															<div className={styles.tagsWrapper}>
+																{tags?.length !== 0 ? (
+																	tags.map((tag, index) => {
+																		return (
+																			<div className={styles.tagTxt}>
+																				@{tag}
+																				<img
+																					style={{ width: "10px", marginLeft: "5px", cursor: "pointer" }}
+																					src={closeIcon}
+																					alt="close"
+																					onClick={() => removeTag(index)}
+																				/>
+																			</div>
+																		);
+																	})
+																) : (
+																	<h3>No Tags</h3>
+																)}
 															</div>
 														</div>
-													</>
-												) : (
-													<>
-														<div className={styles.infoCont}>
-															<div className={styles.infoWrapper}>
-																<div className={styles.heading}>
+														<div className={styles.tagBtnCont}>
+															<button
+																className={styles.tagCancelBtn}
+																onClick={handleCancelTag}>
+																Cancel
+															</button>
+															<button
+																className={styles.tagSaveBtn}
+																onClick={() => handleSaveTags(contact._id)}>
+																Save
+															</button>
+														</div>
+													</div>
+												</>
+											) : (
+												<>
+													<div className={styles.infoCont}>
+														<div className={styles.infoWrapper}>
+															{/* <div className={styles.heading}>
 																	<h1 className={styles.key}>Name</h1>
-																</div>
-																<div className={styles.info}>
-																	<h1 className={styles.value}>{contact.name}</h1>
-																</div>
+																</div> */}
+															<div className={styles.info}>
+																<h1 className={styles.value}>{contact.name}</h1>
 															</div>
-															<div className={styles.infoWrapper}>
-																<div className={styles.heading}>
+														</div>
+														<div className={styles.infoWrapper}>
+															{/* <div className={styles.heading}>
 																	<h1 className={styles.key}>Email</h1>
-																</div>
-																<div className={styles.info}>
-																	<h1 className={styles.value}>{contact.email}</h1>
-																</div>
-															</div>
-															<div className={styles.infoWrapper}>
-																<div className={styles.heading}>
-																	<h1 className={styles.key}>Phone Number</h1>
-																</div>
-																<div className={styles.info}>
-																	<h1 className={styles.value}>{contact.phone}</h1>
-																</div>
+																</div> */}
+															<div className={styles.info}>
+																<h1 className={styles.value}>{contact.email}</h1>
 															</div>
 														</div>
-														<div className={styles.cardBtns}>
-															<button
-																onClick={() => SetOPenUpdateCard(contact._id)}
-																className={styles.updateBtn}>
-																Update
-															</button>
-															<button
-																className={styles.delBtn}
-																onClick={() => hsndelDeleteContact(contact._id)}>
-																Delete
-															</button>
-															<button
-																onClick={() => {
-																	setOPenTagsCard(contact._id);
-																	getTags(contact._id);
-																}}
-																className={styles.tagBtn}>
-																Tags
-															</button>
+														<div className={styles.infoWrapper}>
+															{/* <div className={styles.heading}>
+																	<h1 className={styles.key}>Ph. Number</h1>
+																</div> */}
+															<div className={styles.info}>
+																<h1 className={styles.value}>{contact.phone}</h1>
+															</div>
 														</div>
-													</>
-												)}
-											</div>
-										);
-								  })}
+													</div>
+													<div className={styles.cardBtns}>
+														<button
+															onClick={() => SetOPenUpdateCard(contact._id)}
+															className={styles.updateBtn}>
+															Update
+														</button>
+														<button
+															className={styles.delBtn}
+															onClick={() => hsndelDeleteContact(contact._id)}>
+															Delete
+														</button>
+														<button
+															onClick={() => {
+																setOPenTagsCard(contact._id);
+																getTags(contact._id);
+															}}
+															className={styles.tagBtn}>
+															Tags
+														</button>
+													</div>
+												</>
+											)}
+										</div>
+									);
+								})
+							)}
 						</div>
 					</div>
 				</div>
